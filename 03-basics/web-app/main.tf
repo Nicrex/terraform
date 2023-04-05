@@ -2,10 +2,10 @@ terraform {
   # Assumes s3 bucket and dynamo DB table already set up
   # See /code/03-basics/aws-backend
   backend "s3" {
-    bucket         = "devops-directive-tf-state"
+    bucket         = "devops-directive-tf-state1test"
     key            = "03-basics/web-app/terraform.tfstate"
     region         = "us-east-1"
-    dynamodb_table = "terraform-state-locking"
+   #dynamodb_table = "terraform-state-locking"
     encrypt        = true
   }
 
@@ -186,35 +186,35 @@ resource "aws_lb" "load_balancer" {
 
 }
 
-resource "aws_route53_zone" "primary" {
-  name = "devopsdeployed.com"
-}
+# resource "aws_route53_zone" "primary" {
+#   name = "devopsdeployed.com"
+# }
 
-resource "aws_route53_record" "root" {
-  zone_id = aws_route53_zone.primary.zone_id
-  name    = "devopsdeployed.com"
-  type    = "A"
+# resource "aws_route53_record" "root" {
+#   zone_id = aws_route53_zone.primary.zone_id
+#   name    = "devopsdeployed.com"
+#   type    = "A"
 
-  alias {
-    name                   = aws_lb.load_balancer.dns_name
-    zone_id                = aws_lb.load_balancer.zone_id
-    evaluate_target_health = true
-  }
-}
+#   alias {
+#     name                   = aws_lb.load_balancer.dns_name
+#     zone_id                = aws_lb.load_balancer.zone_id
+#     evaluate_target_health = true
+#   }
+# }
 
-resource "aws_db_instance" "db_instance" {
-  allocated_storage = 20
+# resource "aws_db_instance" "db_instance" {
+#   allocated_storage = 20
   # This allows any minor version within the major engine_version
   # defined below, but will also result in allowing AWS to auto
   # upgrade the minor version of your DB. This may be too risky
   # in a real production environment.
-  auto_minor_version_upgrade = true
-  storage_type               = "standard"
-  engine                     = "postgres"
-  engine_version             = "12"
-  instance_class             = "db.t2.micro"
-  name                       = "mydb"
-  username                   = "foo"
-  password                   = "foobarbaz"
-  skip_final_snapshot        = true
-}
+#   auto_minor_version_upgrade = true
+#   storage_type               = "standard"
+#   engine                     = "postgres"
+#   engine_version             = "12"
+#   instance_class             = "db.t2.micro"
+#   name                       = "mydb"
+#   username                   = "foo"
+#   password                   = "foobarbaz"
+#   skip_final_snapshot        = true
+# }
